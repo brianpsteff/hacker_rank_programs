@@ -11,7 +11,7 @@
 #include <ctype.h>
 
 #define LETTERS_IN_ALPHABET 26
-#define MAX_STRING_LENGTH 1000
+#define MAX_STRING_LENGTH 1002
 
 typedef struct {
 	char c_value;
