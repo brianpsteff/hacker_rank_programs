@@ -20,6 +20,8 @@ typedef struct {
 
 /*FUNCTION PROTOTYPES*/
 int read_string(letter* my_alphabet[], char* my_string);
+void print_structure(letter* my_letter);
+int evaluate_letter(letter* my_letter, int count);
 
 int main(void)
 {
@@ -31,10 +33,16 @@ int main(void)
 		alphabet[i].c_value = c;
 		alphabet[i].found = false;
 	}
+	
+	/*for(int i = 0; i< 26; i++)
+	{
+		print_structure(&alphabet[i]);
+	}*/
 
-	int letter_count;
+	int letter_count = 0, string_length = 0;
 	char current_char;
 	char my_string[MAX_STRING_LENGTH];	
+
 	/*load the string from StdIN, one character at a time*/\
 	for(int i = 0; !(current_char == '\n' || current_char == EOF); i++)
 	{
@@ -47,50 +55,45 @@ int main(void)
 			current_char = tolower(current_char);
 
 		my_string[i] = current_char;
+		string_length++;
 	}
 
-	printf("String loaded from STDIN:\n\n%s\n", my_string);
-	printf("\n%d\n", strlen(my_string));
-	letter_count = read_string(alphabet, my_string);
+	//printf("String loaded from STDIN:\n\n%s\nlength:\t%d\n", my_string, string_length);
+	
+	for(int i = 0; i<string_length; i++){
+		int index = my_string[i] - 'a';
+		letter_count = evaluate_letter(&alphabet[index], letter_count);
+		//print_structure(&alphabet[index]);
+		//printf("The current count is: %d\n", letter_count);	/*Should be incrementing*/
+	}
 
+	
 	switch(letter_count){
 		case 26:
 			printf("panagram\n");
+			break;
 		default:
 			printf("not panagram\n");
+			break;
 	}
+	
 
 	return 0;
 }
 
-/*read_string:	takes a pointer to an array of letter structures, and a pointer to a char
-		array as arguments. tests each letter in string against structures in array.
-		Returns a count of structs who's member 'found' == true.
-		If returned int is equal to 26 then the string is indeed a panagram.
-*/	
-int read_string(letter* my_alphabet[], char* my_string)
-{	
-	int count;
-	char current_char;
-	for(int i = 0; my_string[i] != '\0'; i++)
+/*evaluate_letter:	If necessary changes the boolean value of the lettr structure passed into the
+			function argunebt abd returns an updated count.
+			*/
+int evaluate_letter(letter* my_letter, int count)
+{
+	if(my_letter->found == false)
 	{
-		current_char = my_string[i];
-		if(my_alphabet[current_char - 'a'] -> found == false)
-		{
-			count++;
-			my_alphabet[current_char - 'a'] -> found = true;
-		}
+		my_letter->found = true;
+		count++;
 	}
 	return count;
 }
 
-/* Funciton specific Function prototype*/
-void print_structure(letter* my_letter);
-
-void print_structure_array(letter* my_alphabet[])
-{
-
-}
 
 void print_structure(letter* my_letter)
 {
@@ -99,6 +102,6 @@ void print_structure(letter* my_letter)
 	if(my_letter -> found == true)
 		boolean_val = "true";
 
-	printf()
+	printf("%c\t::\t%s\n", my_char, boolean_val);
 }
 
