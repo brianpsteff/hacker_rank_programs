@@ -39,21 +39,29 @@ int main(void)
 		print_structure(&alphabet[i]);
 	}
 
-	int letter_count = 0, string_length = 0, i = 0;
+	int letter_count = 0, i = 0;
 	char current_char;
 	char my_string[MAX_STRING_LENGTH];	
 
 	/*load the string from StdIN*/
 	while((scanf("%c", &current_char) > 0))
 	{
-		my_string[i] = current_char;
-		i++;
+		if(current_char != ' ')
+		{
+			if(isupper(current_char))
+				current_char = tolower(current_char);
+			my_string[i] = current_char;
+			i++;
+		}
+		
 	}
+
+	int string_length = i+1;
 
 	printf("String loaded from STDIN:\n\n%s\nlength:\t%d\n", my_string, string_length);
 	
-	for(int i = 0; i<string_length; i++){
-		int index = my_string[i] - 'a';
+	for(int j = 0; i<string_length; j++){
+		int index = my_string[j] - 'a';
 		letter_count = evaluate_letter(&alphabet[index], letter_count);
 		print_structure(&alphabet[index]);
 		printf("The current count is: %d\n", letter_count);	/*Should be incrementing*/
